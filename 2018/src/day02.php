@@ -59,3 +59,43 @@ foreach ($inputs as $string) {
 }
 
 echo "Part 1 - Checksum: " . ($total2 * $total3) . PHP_EOL;
+
+/**
+ * --- Part Two ---
+ *
+ * Confident that your list of box IDs is complete, you're ready to find the boxes full of prototype fabric.
+ *
+ * The boxes will have IDs which differ by exactly one character at the same position in both strings. For example, given the following box IDs:
+ *
+ * abcde
+ * fghij
+ * klmno
+ * pqrst
+ * fguij
+ * axcye
+ * wvxyz
+ * The IDs abcde and axcye are close, but they differ by two characters (the second and fourth). However, the IDs fghij and fguij differ by exactly one character, the third (h and u). Those must be the correct boxes.
+ *
+ * What letters are common between the two correct box IDs? (In the example above, this is found by removing the differing character from either ID, producing fgij.)
+ */
+
+$originalString = "";
+$similarString = "";
+
+foreach ($inputs as $string) {
+
+    foreach ($inputs as $comparingString) {
+
+        $differences = array_diff_assoc(str_split($string), str_split($comparingString));
+
+        if (count($differences) === 1) {
+            $originalString = $string;
+            $similarString = $comparingString;
+            break;
+        }
+    }
+}
+
+$result = implode('', array_intersect(str_split($originalString), str_split($similarString)));
+
+echo "Part 2 - Letters in common: " . $result . PHP_EOL;
