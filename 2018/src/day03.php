@@ -48,7 +48,7 @@ $inputs = include __DIR__ . "/../resources/day03.php";
 
 $coordinates = [];
 
-foreach($inputs as $claim) {
+foreach ($inputs as $claim) {
     preg_match_all('/(\d+)/', $claim, $matches);
 
     $left = (int)$matches[0][1];
@@ -70,3 +70,36 @@ foreach($inputs as $claim) {
 $overlaps = count(array_filter($coordinates, function ($coordinate) { return $coordinate > 1; }));
 
 echo "Part 1 - Overlapped coordinates: {$overlaps}" . PHP_EOL;
+
+/**
+ * --- Part Two ---
+ *
+ * Amidst the chaos, you notice that exactly one claim doesn't overlap by even a single square inch of fabric with any other claim. If you can somehow draw attention to it, maybe the Elves will be able to make Santa's suit after all!
+ *
+ * For example, in the claims above, only claim 3 is intact after all claims are made.
+ *
+ * What is the ID of the only claim that doesn't overlap?
+ */
+
+$intactClaimId = null;
+foreach ($inputs as $claim) {
+    preg_match_all('/(\d+)/', $claim, $matches);
+
+    $left = (int)$matches[0][1];
+    $top = (int)$matches[0][2];
+    $width = (int)$matches[0][3];
+    $height = (int)$matches[0][4];
+
+    for ($x = $left; $x < $left + $width; $x++) {
+        for ($y = $top; $y < $top + $height; $y++) {
+            if ($coordinates["{$x},{$y}"] > 1) {
+                continue 3;
+            }
+        }
+    }
+
+    $intactClaimId = $matches[0][0];
+    break;
+}
+
+echo "Part 2 - Intact claim ID: {$intactClaimId}" . PHP_EOL;
