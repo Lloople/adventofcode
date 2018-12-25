@@ -1,0 +1,22 @@
+{
+    "name": "lloople/adventofcode",
+    "description": "Solutions for Advent Of Code",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lloople",
+            "email": "hello@davidllop.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Advent\\": "src/"
+        },
+        "files": [
+            "helpers.php"
+        ]
+    }
+}
