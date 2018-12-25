@@ -68,29 +68,6 @@ class D04 extends Day
         $sleepyGuard = null;
         foreach ($this->guards as $id => $guard) {
 
-            $guard['sleepTime'] = [];
-
-            // Get the total sleep time of each guard.
-            foreach ($guard['logs'] as $i => $log) {
-                if ($log['action'] !== 'falls asleep') {
-                    continue;
-                }
-
-                // The sleep time ends a minute before the next log action. If the next log is a sleep, this code would work as expected.
-                $end = (int)date('i', strtotime($guard['logs'][$i + 1]['date'])) - 1 ?? "59";
-
-                for ($minute = (int)date('i', strtotime($log['date'])); $minute < $end; $minute++) {
-                    if (! isset($guard['sleepTime'][$minute])) {
-                        $guard['sleepTime'][$minute] = 0;
-                    }
-
-                    $guard['sleepTime'][$minute]++;
-                }
-            }
-
-            // Override the guard with the sleepTime variable inside.
-            $this->guards[$id] = $guard;
-
             if (! $sleepyGuard || array_sum($this->guards[$id]['sleepTime']) > array_sum($this->guards[$sleepyGuard]['sleepTime'])) {
                 $sleepyGuard = $id;
             }
@@ -119,7 +96,21 @@ class D04 extends Day
      */
     public function part2()
     {
-        //
+        $sleepyMinute = null;
+        $amountOfMaxSleepsPerMinute = 0;
+        $sleepyGuard = null;
+
+        foreach ($this->guards as $id => $guard) {
+            foreach ($this->guards[$id]['sleepTime'] as $minute => $amount) {
+                if ($amount > $amountOfMaxSleepsPerMinute) {
+                    $sleepyMinute = $minute;
+                    $amountOfMaxSleepsPerMinute = $amount;
+                    $sleepyGuard = $id;
+                }
+            }
+        }
+
+        return $sleepyGuard * $sleepyMinute;
     }
 
     private function prepareGuardsFromInput()
@@ -143,6 +134,31 @@ class D04 extends Day
 
             // Save the log inside the corresponding guard.
             $this->guards[$guardId]['logs'][] = $log;
+        }
+
+        foreach ($this->guards as $id => $guard) {
+            $guard['sleepTime'] = [];
+
+            // Get the total sleep time of each guard.
+            foreach ($guard['logs'] as $i => $log) {
+                if ($log['action'] !== 'falls asleep') {
+                    continue;
+                }
+
+                // The sleep time ends a minute before the next log action. If the next log is a sleep, this code would work as expected.
+                $end = (int)date('i', strtotime($guard['logs'][$i + 1]['date'])) - 1 ?? "59";
+
+                for ($minute = (int)date('i', strtotime($log['date'])); $minute < $end; $minute++) {
+                    if (! isset($guard['sleepTime'][$minute])) {
+                        $guard['sleepTime'][$minute] = 0;
+                    }
+
+                    $guard['sleepTime'][$minute]++;
+                }
+            }
+
+            // Override the guard with the sleepTime variable inside.
+            $this->guards[$id] = $guard;
         }
     }
 
