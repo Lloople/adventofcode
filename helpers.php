@@ -22,4 +22,5 @@ function dumpe($dump)
 function dump($dump)
 {
     print_r($dump);
+    echo PHP_EOL;
 }
