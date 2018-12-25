@@ -4,8 +4,15 @@ function run(string $namespace)
 {
     $class = new $namespace();
 
-    echo "Part 1 - " . $class->part1() . PHP_EOL;
-    echo "Part 2 - " . $class->part2() . PHP_EOL;
+    $start = microtime(true);
+    $result = $class->part1();
+    $end = microtime(true);
+    echo "Part 1 - Result: {$result}. Time: " . ($end - $start) . "s". PHP_EOL;
+
+    $start = microtime(true);
+    $result = $class->part2();
+    $end = microtime(true);
+    echo "Part 2 - Result: {$result}. Time: " . ($end - $start) . "s". PHP_EOL;
 }
 
 function dd($arg)
