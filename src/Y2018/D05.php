@@ -7,6 +7,8 @@ use Advent\Day;
 class D05 extends Day
 {
 
+    const UNITS = 'abcdefghijklmnopqrstuvwxyz';
+
     /**
      * --- Day 5: Alchemical Reduction ---
      *
@@ -34,9 +36,7 @@ class D05 extends Day
      */
     public function part1()
     {
-        $inputAsArray = str_split($this->input);
-
-        return count($this->reactPolymer($inputAsArray));
+        return strlen($this->reactPolymer($this->input));
     }
 
     /**
@@ -58,13 +58,12 @@ class D05 extends Day
      */
     public function part2()
     {
-        $units = 'abcdefghijklmnopqrstuvwxyz';
         $lowestPolymerResult = null;
 
-        foreach (str_split($units) as $unit) {
+        foreach (str_split(self::UNITS) as $unit) {
             $cleanedInput = str_replace([$unit, strtoupper($unit)], '', $this->input);
 
-            $resultInput = count($this->reactPolymer(str_split($cleanedInput)));
+            $resultInput = strlen($this->reactPolymer($cleanedInput));
 
             if (! $lowestPolymerResult || $resultInput < $lowestPolymerResult) {
                 $lowestPolymerResult = $resultInput;
@@ -74,26 +73,19 @@ class D05 extends Day
         return $lowestPolymerResult;
     }
 
-    private function reactPolymer(array $polymer)
+    private function reactPolymer($polymer)
     {
         $cleanString = false;
 
         while (! $cleanString) {
             $somethingRemoved = false;
-            foreach ($polymer as $position => $letter) {
-                if (! isset($polymer[$position + 1])) {
-                    break;
-                }
 
-                $nextLetter = $polymer[$position + 1];
+            foreach (str_split(self::UNITS) as $unit) {
+                $polymer = str_replace($unit . strtoupper($unit), '', $polymer, $deletedLower);
+                $polymer = str_replace(strtoupper($unit) . $unit, '', $polymer, $deletedUpper);
 
-                if (strtolower($letter) === strtolower($nextLetter) && $letter !== $nextLetter) {
-                    array_splice($polymer, $position, 2);
+                if ($deletedLower || $deletedUpper) {
                     $somethingRemoved = true;
-
-                    // This will ensure we start from the beginning on each removal in case
-                    // the (position -1) and (position +2) matches once the (position) and (position +1) are deleted.
-                    break;
                 }
             }
 

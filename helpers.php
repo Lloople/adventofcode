@@ -1,18 +1,22 @@
 <?php
 
-function run(string $namespace)
+function run(string $namespace, $part = null)
 {
     $class = new $namespace();
 
-    $start = microtime(true);
-    $result = $class->part1();
-    $end = microtime(true);
-    echo "Part 1 - Result: {$result}. Time: " . ($end - $start) . "s". PHP_EOL;
+    if (! $part || $part == 1) {
+        $start = microtime(true);
+        $result = $class->part1();
+        $end = microtime(true);
+        echo "Part 1 - Result: {$result}. Time: " . round($end - $start, 2) . "s" . PHP_EOL;
+    }
 
-    $start = microtime(true);
-    $result = $class->part2();
-    $end = microtime(true);
-    echo "Part 2 - Result: {$result}. Time: " . ($end - $start) . "s". PHP_EOL;
+    if (! $part || $part == 2) {
+        $start = microtime(true);
+        $result = $class->part2();
+        $end = microtime(true);
+        echo "Part 2 - Result: {$result}. Time: " . round($end - $start, 2) . "s" . PHP_EOL;
+    }
 }
 
 function dd($arg)
