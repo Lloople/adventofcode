@@ -57,8 +57,59 @@ class D06 extends Day
         }, $lights));
     }
 
+    /**
+     * --- Part Two ---
+     *
+     * You just finish implementing your winning light pattern when you realize you mistranslated Santa's message from Ancient Nordic Elvish.
+     *
+     * The light grid you bought actually has individual brightness controls; each light can have a brightness of zero or more. The lights all start at zero.
+     *
+     * The phrase turn on actually means that you should increase the brightness of those lights by 1.
+     *
+     * The phrase turn off actually means that you should decrease the brightness of those lights by 1, to a minimum of zero.
+     *
+     * The phrase toggle actually means that you should increase the brightness of those lights by 2.
+     *
+     * What is the total brightness of all lights combined after following Santa's instructions?
+     *
+     * For example:
+     *
+     * turn on 0,0 through 0,0 would increase the total brightness by 1.
+     * toggle 0,0 through 999,999 would increase the total brightness by 2000000.
+     */
     public function part2()
     {
-        // TODO: Implement part2() method.
+        $lights = array_fill(0, 1000, array_fill(0, 1000, 0));
+
+        foreach ($this->input as $sentence) {
+            preg_match_all('/(\d+)/', $sentence, $matches);
+
+            $fromX = $matches[0][0];
+            $fromY = $matches[0][1];
+            $toX = $matches[0][2];
+            $toY = $matches[0][3];
+
+            if (strpos($sentence, 'turn on') === 0) {
+                $result = 1;
+            } elseif (strpos($sentence, 'turn off') === 0) {
+                $result = -1;
+            } else {
+                $result = 2;
+            }
+
+            for ($x = $fromX; $x <= $toX; $x++) {
+                for ($y = $fromY; $y <= $toY; $y++) {
+                    $lights[$x][$y] += $result;
+
+                    if ($lights[$x][$y] < 0) {
+                        $lights[$x][$y] = 0;
+                    }
+                }
+            }
+        }
+
+        return array_sum(array_map(function ($ys) {
+            return array_sum($ys);
+        }, $lights));
     }
 }
