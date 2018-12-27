@@ -32,8 +32,21 @@ class D04 extends Day
         }
     }
 
+    /**
+     * --- Part Two ---
+     *
+     * Now find one that starts with six zeroes.
+     */
     public function part2()
     {
-        // TODO: Implement part2() method.
+        $lowestPositiveNumber = 1;
+
+        while (true) {
+            if (substr(md5($this->input . $lowestPositiveNumber), 0, 6) === '000000') {
+                return $lowestPositiveNumber;
+            }
+
+            $lowestPositiveNumber++;
+        }
     }
 }
