@@ -67,23 +67,19 @@ class D01 extends Day
     public function part2()
     {
         $results = [];
-        $duplicatedResult = null;
-        $start = 0;
+        $sum = 0;
 
         do {
             foreach ($this->input as $item) {
-                $start += $item;
+                $sum += $item;
 
-                if (array_search($start, $results)) {
-                    $duplicatedResult = $start;
-                    break;
+                if (isset($results[$sum])) {
+                    return $sum;
                 }
 
-                $results[] = $start;
+                $results[$sum] = 1;
             }
-        } while ($duplicatedResult === null);
-
-        return $duplicatedResult;
+        } while (true);
     }
 
 }
