@@ -75,9 +75,7 @@ class D05 extends Day
 
     private function reactPolymer($polymer)
     {
-        $cleanString = false;
-
-        while (! $cleanString) {
+        while (true) {
             $somethingRemoved = false;
 
             foreach (str_split(self::UNITS) as $unit) {
@@ -90,10 +88,8 @@ class D05 extends Day
             }
 
             if (! $somethingRemoved) {
-                $cleanString = true;
+                return $polymer;
             }
         }
-
-        return $polymer;
     }
 }
