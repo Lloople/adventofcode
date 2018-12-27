@@ -39,8 +39,29 @@ class D01 extends Day
         return eval("return {$input};");
     }
 
+    /**
+     * --- Part Two ---
+     *
+     * Now, given the same instructions, find the position of the first character that causes him to enter the basement (floor -1). The first character in the instructions has position 1, the second character has position 2, and so on.
+     *
+     * For example:
+     *
+     * ) causes him to enter the basement at character position 1.
+     * ()()) causes him to enter the basement at character position 5.
+     * What is the position of the character that causes Santa to first enter the basement?
+     */
     public function part2()
     {
-        // TODO: Implement part2() method.
+        $currentSantaFloor = 0;
+
+        foreach (str_split($this->input) as $index => $step) {
+            $step = $step === '(' ? 1 : -1;
+
+            $currentSantaFloor += $step;
+
+            if ($currentSantaFloor === -1) {
+                return $index + 1;
+            }
+        }
     }
 }
