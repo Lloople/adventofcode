@@ -7,18 +7,26 @@ My solutions for https://adventofcode.com
 composer install
 ```
 
-Single day:
+## Usage
+
+### Single day:
 
 ```
 php day.php {day} {year}
 ```
 
-Default to the current day and current year
+> Default to the current day and current year
 
-Run a whole year:
+If you want to run a specific part of a day:
+
+```
+php day.php {day} {year} {part}
+```
+
+### Run a whole year:
 
 ```
 php year.php {year}
 ```
 
-Default to the current year
+> Default to the current year
