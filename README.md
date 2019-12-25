@@ -12,16 +12,10 @@ composer install
 ### Single day:
 
 ```
-php day.php {day} {year}
-```
-
-> Default to the current day and current year
-
-If you want to run a specific part of a day:
-
-```
 php day.php {day} {year} {part}
 ```
+
+> Default to the current day, current year and both parts
 
 ### Run a whole year:
 
